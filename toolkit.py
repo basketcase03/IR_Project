@@ -6,17 +6,19 @@ def main():
                         metavar = "file_name", 
                         help = "Stores stemmed version of file in same dir.")
   
-    parser.add_argument("-s", "--similar", type = str, nargs = 2,
-                       metavar = ('file1','file2'),
-                       help = "Shows similarity score btw files.")
+    parser.add_argument("-c", "--similar", type = str, nargs = 2,
+                       metavar = ('sim_type','doc_or_file'),
+                       help = "Shows similarity score btw files.\
+                           c: cosine \
+                           e: euclidean \
+                           j: jaccard \
+                            \
+                           0: dir \
+                           1: files")
       
     parser.add_argument("-t", "--txtsearch", type = str, nargs = 2,
                         metavar = ('txt','file1'), 
                         help = "Returns if text present in given document.")
-    
-    parser.add_argument("-d", "--alldir", type = str, nargs = 1,
-                        metavar = "dir_name",
-                        help = "Outputs similarity scores of all documents in dir.")
     
     parser.add_argument("-v", "--visualisefile", type = str, nargs = 1,
                         metavar = 'file_name',
