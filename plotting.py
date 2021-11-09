@@ -13,8 +13,8 @@ def plot(cos_sim,doc1_name,doc2_name):
     fig=plt.gcf()
     fig.gca().add_artist(circle1)
     fig.gca().add_artist(circle2)
-    plt.text(0-rad, 0, 'doc1', size=15, color='black')
-    plt.text(diam+rad/2, 0, 'doc2', size=15, color='black')
+    plt.text(0-rad, 0,doc1_name, size=15, color='black')
+    plt.text(diam+rad/2, 0,doc2_name, size=15, color='black')
     plt.show()
 
-#plot(0.67,"1","2")
+#plot(0.67,"doc1","doc2")
