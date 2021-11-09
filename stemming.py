@@ -1,10 +1,12 @@
 import string
 class porter_stemmer:
-
-    consonants = "bcdfghjklmnpqrstwxz"
+ 
+    # differentiating between consonants, vowels and special cases
+    consonants = "bcdfghjklmnpqrstwxz"     
     special_case = "y"
     vowels = "aeiou"
 
+    # dividing into groups of consonants and vowels
     def divide_into_groups(self,word):
         groups=[]
         preceding = ""
@@ -22,7 +24,7 @@ class porter_stemmer:
                     if idx == len(word)-1:
                         groups.append(letter)
         return groups
-
+    
     def _compare_same_class(self, l1, l2):
         if l1 in self.consonants and l2 in self.consonants:
             return True
@@ -30,18 +32,22 @@ class porter_stemmer:
             return True
         else:
             return False
-        
+
+    # Checking classes of the groups   
     def _determine_class(self, group):
         if group[0] in self.consonants:
             return 'C'
         return 'V'
-
+    
+    #Encoding word into set of C and V form
     def _encode_word(self, word):
         encoded = self.divide_into_groups(word)
         classified = [self._determine_class(group) for group in encoded]
         return classified
-
-    def _det_m(self, word):            #[C]VC{m}[V]
+    
+    # Caculating measure m, that denotes the number of VC’s between the begin (after the optional consonant group) and
+    #  the end of the word (before the optional vowel group) i.e. [C]VC{m}[V]
+    def _det_m(self, word):            
         classes = self._encode_word(word)
         if len(classes) < 2:
             return 0
@@ -51,24 +57,28 @@ class porter_stemmer:
             classes = classes[:len(classes)-1]
         m = len(classes)//2 if (len(classes)/2) >= 1 else 0
         return m
-
+    
+    #chk_LT checks then end of a stem is of one of the letters provided in the lt string
     def _chk_LT(self, stem, lt):
         for letter in lt:
             if stem.endswith(letter):
                 return True
         return False
 
+    #chk_v checks if the stem contains a vowel
     def _chk_v(self, stem):
         for letter in stem:
             if letter in self.vowels:
                 return True
         return False
 
+    #chk_d checks if there’s a double consonant ending
     def _chk_d(self, stem):
         if stem[-1] in self.consonants and stem[-2] in self.consonants:
             return True
         return False
 
+    #chk_o checks whether the stem ends with cvc (except W, X and Y)
     def _chk_o(self, stem):
         if len(stem) <3:
             return False
@@ -77,6 +87,7 @@ class porter_stemmer:
         else:
             return False
 
+    #designed to deal with plurals and past participles.
     def _porter_step_1(self, word):
         """
         Deals with plurals and past participles.
@@ -119,6 +130,7 @@ class porter_stemmer:
             stem = stem[:-1]+'i'
         return stem
 
+    #related to several common terminations 
     def _porter_step_2(self, stem):
         pair_tests = [('ational','ate'), ('tional','tion'), ('enci','ence'), ('anci','ance'), ('izer', 'ize'),
                       ('abli','able'), ('alli','al'), ('entli', 'ent'), ('eli', 'e'), ('ousli', 'ous'), ('ization', 'ize'),
@@ -130,6 +142,7 @@ class porter_stemmer:
                     return stem[:-len(term)]+subs
         return stem
 
+    #Checking m conditions
     def _porter_step_3(self, stem):
         pair_tests = [('icate','ic'),('ative',''),('alize','al'),('iciti','ic'),('ical','ic'),('ful',''),('ness','')]
         if self._det_m(stem) > 0:
@@ -138,7 +151,7 @@ class porter_stemmer:
                     return stem[:-len(term)]+subs
         return stem
 
-    
+    #Removal of suffixes 
     def _porter_step_4(self, stem):
         """
         Remove suffixes
@@ -159,6 +172,7 @@ class porter_stemmer:
                     return stem[:-len(suffix)]
         return stem
 
+    # Removing extra letters at the end
     def _porter_step_5(self, stem):
         temp = stem
         #Step 5a
