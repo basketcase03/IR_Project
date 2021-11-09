@@ -6,7 +6,7 @@ from similarities import cosine_sim, euclidean_sim, jaccard_sim
 from preprocess import preprocess
 from stemming import stemming
 import nltk
-
+from plotting import plot
 from txtsearch import KMP, RKarp, brute_force
 #nltk.download('punkt')
 #nltk.download('stopwords')
@@ -139,7 +139,7 @@ def visualisefile(args):
    
     sim_type = input("Enter type of similarity: ")
     mode = "B"
-    score = print_sim(sim_type,file1,file2,mode):
+    score = print_sim(sim_type,file1,file2,mode)
     plot(score,txt1,txt2)
 
 
@@ -180,5 +180,3 @@ if __name__ == "__main__":
         txtsearch(args)
     if args.visualisefile != None:
         visualisefile(args)
-    if args.visualisedir != None:
-        visualisedir(args)
