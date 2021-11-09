@@ -4,6 +4,7 @@ from re import sub
 from numpy.core.einsumfunc import einsum
 from similarities import cosine_sim, euclidean_sim, jaccard_sim
 from preprocess import preprocess
+from stemming import stemming
 import nltk
 #nltk.download('punkt')
 #nltk.download('stopwords')
@@ -126,12 +127,14 @@ def similar(args):
         for val in res_list:
             print(val[0]+" : "+str(val[1]))
 
-
-        
-
-
 def txtsearch():
-    pass
+    search_type = input("Enter algo to search with : ")
+    if search_type == 'a':
+        pass
+    elif search_type == 'b':
+        pass
+    else:
+        pass
 
 def visualisefile():
     pass
