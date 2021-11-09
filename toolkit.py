@@ -8,6 +8,7 @@ import nltk
 #nltk.download('punkt')
 #nltk.download('stopwords')
 
+
 def check_file(fname):
     return os.path.isfile(fname) 
 
@@ -21,13 +22,33 @@ def get_files(dir_name):
             file_list.append(os.path.join(dir_name, file))
     return file_list
     
+def get_text(fname):
+    file1 = open(fname)
+    txt = file1.read()
+    file1.close()
+    txt = preprocess(txt)
+    return txt
+
 def Sort(sub_li):
     sub_li.sort(key = lambda x: x[1])
     sub_li.reverse()
     return sub_li
 
 def stem():
-    pass
+    stem_type = args.stem[0]
+    fname = args.stem[1]
+
+    if not check_file(fname):
+        print("Enter valid file name")
+        return
+    
+    if stem_type == 'p':
+        stemming(get_text(fname))
+    else:
+        stemming(get_text(fname))
+
+
+
 
 def print_sim(sim_type,file1,file2,mode=""):
     print("File 1: ", file1)
@@ -35,17 +56,8 @@ def print_sim(sim_type,file1,file2,mode=""):
     sim = ""
     score = 0
 
-    file1 = open(file1)
-    file2 = open(file2)
-
-    txt1 = file1.read()
-    txt2 = file2.read()
-
-    file1.close()
-    file2.close()
-
-    txt1 = preprocess(txt1)
-    txt2 = preprocess(txt2)
+    txt1 = get_text(file1)
+    txt2 = get_text(file2)
 
     if sim_type == 'c':
         sim = "cosine"
@@ -132,8 +144,8 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description = "Information Retrieval Toolkit")
 
-    parser.add_argument("-p", "--stem", type = str, nargs = 1,
-                        metavar = "file_name", 
+    parser.add_argument("-p", "--stem", type = str, nargs = 2,
+                        metavar = ("stem_type","file_name"), 
                         help = "Stores stemmed version of file in same dir.")
   
     parser.add_argument("-s", "--similar", type = str, nargs = 2,
