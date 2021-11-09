@@ -140,9 +140,8 @@ def txtsearch(args):
 def visualisefile(args):
     file1 = args.visualisefile[0]
     file2 = args.visualisefile[1]
-    txt1 = get_text(file1)
-    txt2 = get_text(file2)
-   
+    txt1 = Path(args.visualisefile[0]).stem
+    txt2 = Path(args.visualisefile[1]).stem
     sim_type = input("Enter type of similarity: ")
     mode = "B"
     score = print_sim(sim_type,file1,file2,mode)
