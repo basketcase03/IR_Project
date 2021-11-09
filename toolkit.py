@@ -3,6 +3,9 @@ import argparse
 from numpy.core.einsumfunc import einsum
 from similarities import cosine_sim, euclidean_sim, jaccard_sim
 from preprocess import preprocess
+import nltk
+#nltk.download('punkt')
+#nltk.download('stopwords')
 
 def check_file(fname):
     return os.path.isfile(fname) 
@@ -21,40 +24,42 @@ def get_files(dir_name):
 def stem():
     pass
 
-def print_sim(sim_type,file1,file2):
-    print("File 1: ".file1)
-    print("File 2: "file2,)
+def print_sim(sim_type,file1,file2,mode=""):
+    print("File 1: ", file1)
+    print("File 2: ", file2)
     sim = ""
     score = 0
 
+    file1 = open(file1)
+    file2 = open(file2)
+
     txt1 = file1.read()
     txt2 = file2.read()
+
+    file1.close()
+    file2.close()
 
     txt1 = preprocess(txt1)
     txt2 = preprocess(txt2)
 
     if sim_type == 'c':
         sim = "cosine"
-        score = cosine_sim(txt1,txt2)
+        score = cosine_sim(txt1,txt2,mode)
     elif sim_type == 'e':
         sim = "euclidean"
-        score = euclidean_sim(txt1,txt2)
+        score = euclidean_sim(txt1,txt2,mode)
     else:
         sim = "jaccard"
         score = jaccard_sim(txt1,txt2)
-    print("Similarity score (sim_} is : {score_}".format(sim_=sim,score_=score))
+    print("Similarity score {sim_} is : {score_}".format(sim_=sim,score_=score))
 
 def similar(args):
-     c: cosine \
-                           e: euclidean \
-                           j: jaccard \
-                            \
-                           0: dir \
-                           1: files")
-
-
     sim_type = args.similar[0]
     dir_or_file = args.similar[1]
+
+    mode = ""
+    if sim_type in ['c','e']:
+        mode = input("Enter mode")
 
     if dir_or_file == 0:  #directory
         dir_name = input("Enter dir name: ")
@@ -64,14 +69,14 @@ def similar(args):
         file_list = get_files(dir_name)
         for file1 in file_list:
             for file2 in file_list:
-                print_sim(sim_type,file1,file2)
+                print_sim(sim_type,file1,file2,mode)
     else:
         file1 = input("Enter file1: ")
         file2 = input("Enter file2: ")
         if (not check_file(file1)) or (not check_file(file2)):
             print("Enter valid file name")
             return 
-        print_sim(sim_type,file1,file2)
+        print_sim(sim_type,file1,file2,mode)
 
 def txtsearch():
     pass
@@ -82,7 +87,8 @@ def visualisefile():
 def visualisedir():
     pass
 
-def main():
+
+if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description = "Information Retrieval Toolkit")
 
