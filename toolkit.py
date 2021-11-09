@@ -38,17 +38,11 @@ def Sort(sub_li):
     return sub_li
 
 def stem():
-    stem_type = args.stem[0]
-    fname = args.stem[1]
-
+    fname = args.stem[0]
     if not check_file(fname):
         print("Enter valid file name")
         return
-    
-    if stem_type == 'p':
-        stemming(get_text(fname))
-    else:
-        stemming(get_text(fname))
+    print(stemming(get_text(fname)))
 
 def print_sim(sim_type,file1,file2,mode=""):
     print("File 1: ", file1)
@@ -137,8 +131,17 @@ def txtsearch(args):
     else:
         print("Position:",RKarp(pat,txt))
 
-def visualisefile():
-    pass
+def visualisefile(args):
+    file1 = args.visualisefile[0]
+    file2 = args.visualisefile[1]
+    txt1 = get_text(file1)
+    txt2 = get_text(file2)
+   
+    sim_type = input("Enter type of similarity: ")
+    mode = "B"
+    score = print_sim(sim_type,file1,file2,mode):
+    plot(score,txt1,txt2)
+
 
 
 if __name__ == "__main__":
@@ -164,7 +167,7 @@ if __name__ == "__main__":
                         help = "Returns if text present in given document.")
     
     parser.add_argument("-f", "--visualisefile", type = str, nargs = 1,
-                        metavar = 'file_name',
+                        metavar = ('file1','file2'), 
                         help = "Visualisation of similarity scores")
   
     args = parser.parse_args()
