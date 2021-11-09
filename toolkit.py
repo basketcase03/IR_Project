@@ -1,5 +1,6 @@
 import os
 import argparse
+from re import sub
 from numpy.core.einsumfunc import einsum
 from similarities import cosine_sim, euclidean_sim, jaccard_sim
 from preprocess import preprocess
@@ -15,13 +16,14 @@ def check_dir(dname):
 
 def get_files(dir_name):
     file_list = []
-    for myfile in os.listdir(dir_name):
+    for file in os.listdir(dir_name):
         if file.endswith(".txt"):
-            file_list.append(os.path.join(dir_name, myfile))
+            file_list.append(os.path.join(dir_name, file))
     return file_list
     
 def Sort(sub_li):
     sub_li.sort(key = lambda x: x[1])
+    sub_li.reverse()
     return sub_li
 
 def stem():
@@ -65,7 +67,7 @@ def similar(args):
     if sim_type in ['c','e']:
         mode = input("Enter mode")
 
-    if dir_or_file == 0:  #directory
+    if dir_or_file == '0':  #directory
         dir_name = input("Enter dir name: ")
         if not check_dir(dir_name):
             print("Enter valid dir name")
@@ -73,17 +75,17 @@ def similar(args):
         file_list = get_files(dir_name)
         res_list = []
 
-        for i in range(0,file_list.length()):
-            for j in range(i+1,file_list.length()):
+        for i in range(0,len(file_list)):
+            for j in range(i+1,len(file_list)):
                 file1 = file_list[i]
-                file2 = file_list[2] 
+                file2 = file_list[j] 
                 score = print_sim(sim_type,os.path.join(dir_name,file1),os.path.join(dir_name,file2),mode)
                 res_list.append([file1+" "+file2,score])
-        Sort(res_list)
-        for val in Sort:
-            print(val[0]+" : "+val[1])
+        res_list = Sort(res_list)
+        for val in res_list:
+            print(val[0]+" : "+str(val[1]))
 
-    elif dir_or_file == 1:
+    elif dir_or_file == '1':
         file1 = input("Enter file1: ")
         file2 = input("Enter file2: ")
         if (not check_file(file1)) or (not check_file(file2)):
@@ -101,16 +103,16 @@ def similar(args):
         
         file_list = get_files(dir_name)
         res_list = []
-        
+
         for file2 in file_list:
             if file1 == file2:
                 continue
             score = print_sim(sim_type,os.path.join(dir_name,file1),os.path.join(dir_name,file2),mode)
-                res_list.append([file1+" "+file2,score])
+            res_list.append([file1+" "+file2,score])
 
-        Sort(res_list)
-        for val in Sort:
-            print(val[0]+" : "+val[1])
+        res_list = Sort(res_list)
+        for val in res_list:
+            print(val[0]+" : "+str(val[1]))
 
 
         
