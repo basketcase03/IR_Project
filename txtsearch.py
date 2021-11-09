@@ -6,7 +6,7 @@ def brute_force(pat,txt):
                 flag = False
                 break
         if flag:
-            return i
+            return pos
     return str(-1)
 
 def computeLPSArray(pat, M, lps):

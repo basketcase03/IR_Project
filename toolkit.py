@@ -6,6 +6,8 @@ from similarities import cosine_sim, euclidean_sim, jaccard_sim
 from preprocess import preprocess
 from stemming import stemming
 import nltk
+
+from txtsearch import KMP, RKarp, brute_force
 #nltk.download('punkt')
 #nltk.download('stopwords')
 
@@ -47,9 +49,6 @@ def stem():
         stemming(get_text(fname))
     else:
         stemming(get_text(fname))
-
-
-
 
 def print_sim(sim_type,file1,file2,mode=""):
     print("File 1: ", file1)
@@ -127,19 +126,18 @@ def similar(args):
         for val in res_list:
             print(val[0]+" : "+str(val[1]))
 
-def txtsearch():
+def txtsearch(args):
+    pat = args.txtsearch[0]
+    txt = get_text(args.txtsearch[1])
     search_type = input("Enter algo to search with : ")
-    if search_type == 'a':
-        pass
-    elif search_type == 'b':
-        pass
+    if search_type == 'b':
+        print("Position: ",brute_force(pat,txt))
+    elif search_type == 'k':
+        print("Position: ",KMP(pat,txt))
     else:
-        pass
+        print("Position:",RKarp(pat,txt))
 
 def visualisefile():
-    pass
-
-def visualisedir():
     pass
 
 
@@ -167,11 +165,7 @@ if __name__ == "__main__":
     
     parser.add_argument("-f", "--visualisefile", type = str, nargs = 1,
                         metavar = 'file_name',
-                        help = "Saves visualisations of n-grams.")
-
-    parser.add_argument("-d", "--visualisedir", type = str, nargs = 1,
-                        metavar = 'dir_name',
-                        help = "Saves visualisations of similarity scores.")
+                        help = "Visualisation of similarity scores")
   
     args = parser.parse_args()
       
