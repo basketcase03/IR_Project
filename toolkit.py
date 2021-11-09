@@ -20,6 +20,9 @@ def get_files(dir_name):
             file_list.append(os.path.join(dir_name, myfile))
     return file_list
     
+def Sort(sub_li):
+    sub_li.sort(key = lambda x: x[1])
+    return sub_li
 
 def stem():
     pass
@@ -51,7 +54,8 @@ def print_sim(sim_type,file1,file2,mode=""):
     else:
         sim = "jaccard"
         score = jaccard_sim(txt1,txt2)
-    print("Similarity score {sim_} is : {score_}".format(sim_=sim,score_=score))
+    print("Similarity score ({sim_}) is : {score_}".format(sim_=sim,score_=score))
+    return score
 
 def similar(args):
     sim_type = args.similar[0]
@@ -67,16 +71,50 @@ def similar(args):
             print("Enter valid dir name")
             return
         file_list = get_files(dir_name)
-        for file1 in file_list:
-            for file2 in file_list:
-                print_sim(sim_type,file1,file2,mode)
-    else:
+        res_list = []
+
+        for i in range(0,file_list.length()):
+            for j in range(i+1,file_list.length()):
+                file1 = file_list[i]
+                file2 = file_list[2] 
+                score = print_sim(sim_type,os.path.join(dir_name,file1),os.path.join(dir_name,file2),mode)
+                res_list.append([file1+" "+file2,score])
+        Sort(res_list)
+        for val in Sort:
+            print(val[0]+" : "+val[1])
+
+    elif dir_or_file == 1:
         file1 = input("Enter file1: ")
         file2 = input("Enter file2: ")
         if (not check_file(file1)) or (not check_file(file2)):
             print("Enter valid file name")
             return 
         print_sim(sim_type,file1,file2,mode)
+
+    else:
+        file1 = input("Enter file: ")
+        dir_name = input("Enter dir: ")
+
+        if (not check_file(file1)) or (not check_dir(dir_name)):
+            print("Enter valid path")
+            return
+        
+        file_list = get_files(dir_name)
+        res_list = []
+        
+        for file2 in file_list:
+            if file1 == file2:
+                continue
+            score = print_sim(sim_type,os.path.join(dir_name,file1),os.path.join(dir_name,file2),mode)
+                res_list.append([file1+" "+file2,score])
+
+        Sort(res_list)
+        for val in Sort:
+            print(val[0]+" : "+val[1])
+
+
+        
+
 
 def txtsearch():
     pass
