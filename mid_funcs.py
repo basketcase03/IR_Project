@@ -11,12 +11,15 @@ from pathlib import Path
 #nltk.download('punkt')
 #nltk.download('stopwords')
 
+#To check if file exists
 def check_file(fname):
     return os.path.isfile(fname) 
 
+#To check if directory exists
 def check_dir(dname):
     return os.path.isdir(dname) 
 
+#Return files present in directory
 def get_files(dir_name):
     file_list = []
     for file in os.listdir(dir_name):
@@ -24,6 +27,7 @@ def get_files(dir_name):
             file_list.append(os.path.join(dir_name, file))
     return file_list
     
+#Return preprocessed text of a file
 def get_text(fname):
     file1 = open(fname)
     txt = file1.read()
@@ -31,11 +35,13 @@ def get_text(fname):
     txt = preprocess(txt)
     return txt
 
+#Function to sort list in desc order
 def Sort(sub_li):
     sub_li.sort(key = lambda x: x[1])
     sub_li.reverse()
     return sub_li
 
+#Return stemmed text
 def stem(args):
     fname = args.stem[0]
     if not check_file(fname):
@@ -50,6 +56,7 @@ def stem(args):
     with open(n_file, 'w') as f:
         f.write(stemmed)
 
+#Return similarity score
 def print_sim(sim_type,file1,file2,mode=""):
     print("File 1: ", file1)
     print("File 2: ", file2)
@@ -71,6 +78,7 @@ def print_sim(sim_type,file1,file2,mode=""):
     print("Similarity score ({sim_}) is : {score_}".format(sim_=sim,score_=score))
     return score
 
+#Process the similarity
 def similar(args):
     sim_type = args.similar[0]
     dir_or_file = args.similar[1]
@@ -126,6 +134,7 @@ def similar(args):
         for val in res_list:
             print(val[0]+" : "+str(val[1]))
 
+#Return text search
 def txtsearch(args):
     pat = args.txtsearch[0]
     txt = get_text(args.txtsearch[1])
@@ -137,6 +146,7 @@ def txtsearch(args):
     else:
         print("Position:",RKarp(pat,txt))
 
+#Function to visualise similarity score
 def visualisefile(args):
     file1 = args.visualisefile[0]
     file2 = args.visualisefile[1]

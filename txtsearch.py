@@ -1,3 +1,4 @@
+#Function to return naive text search
 def brute_force(pat,txt):
     for pos in range(0,len(txt)):
         flag = True
@@ -9,6 +10,7 @@ def brute_force(pat,txt):
             return pos
     return str(-1)
 
+#Function to compute LPS Array
 def computeLPSArray(pat, M, lps):
 	len = 0 
 	lps[0] 
@@ -25,6 +27,7 @@ def computeLPSArray(pat, M, lps):
 				lps[i] = 0
 				i += 1
 
+#Function to find KMP text search
 def KMP(pat,txt):
     M = len(pat)
     N = len(txt)
@@ -46,6 +49,7 @@ def KMP(pat,txt):
                 i+=1
     return str(-1)
 
+#Function to find Rabin Karp algorithm for text search
 def RKarp(pat,txt,q = 101):
     d = 256
     M = len(pat)

@@ -3,10 +3,12 @@ import argparse
 from mid_funcs import *
 
 
+#The main function called when script executed
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description = "Information Retrieval Toolkit")
 
+    #Adding various arguments to the parser
     parser.add_argument("-p", "--stem", type = str, nargs = 1,
                         metavar = "file_name", 
                         help = "Outputs ans stores stemmed version of file in same dir.")
@@ -41,6 +43,7 @@ if __name__ == "__main__":
   
     args = parser.parse_args()
       
+    #Using the conditions to process the arguments supplied from CLI
     if args.stem != None:
         stem(args)
     if args.similar != None:
