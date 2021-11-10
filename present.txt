@@ -1,0 +1,13 @@
+ python3 toolkit.py -h
+
+ python3 toolkit.py -s c 0
+ B
+ /home/muskan/IR_Project/IR_Project/test_dir
+
+ python3 toolkit.py -p /home/muskan/IR_Project/IR_Project/test_dir/TTLH.txt
+ 
+ python3 toolkit.py -t joy /home/muskan/IR_Project/IR_Project/test_dir/TTLH.txt
+ k
+
+ python3 toolkit.py -f /home/muskan/IR_Project/IR_Project/test_dir/CAPCH1.txt /home/muskan/IR_Project/IR_Project/test_dir/DQCH2.txt
+j
